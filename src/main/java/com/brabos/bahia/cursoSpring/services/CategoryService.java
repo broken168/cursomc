@@ -2,6 +2,8 @@ package com.brabos.bahia.cursoSpring.services;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
+
+import com.brabos.bahia.cursoSpring.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,6 @@ public class CategoryService {
 
     public Category find(Integer id){
         Optional<Category> category = categoryRepository.findById(id);
-        return category.orElse(null);
+        return category.orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada para id " + id));
     }
 }
