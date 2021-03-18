@@ -1,7 +1,10 @@
 package com.brabos.bahia.cursoSpring.resources;
 
-import com.brabos.bahia.cursoSpring.domain.Category;
+import com.brabos.bahia.cursoSpring.services.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,14 +15,11 @@ import java.util.List;
 @RequestMapping(value = "/categories")
 public class CategoryResource {
 
-    @GetMapping
-    public List<Category> listar() {
+    @Autowired
+    private CategoryService categoryService;
 
-
-        List<Category> list = new ArrayList<>();
-        list.add(new Category(1, "Photos"));
-        list.add(new Category(2, "Videos"));
-
-        return list;
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> listar(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(categoryService.find(id));
     }
 }
