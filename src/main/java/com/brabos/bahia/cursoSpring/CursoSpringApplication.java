@@ -1,9 +1,13 @@
 package com.brabos.bahia.cursoSpring;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
+import com.brabos.bahia.cursoSpring.domain.City;
 import com.brabos.bahia.cursoSpring.domain.Product;
+import com.brabos.bahia.cursoSpring.domain.State;
 import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
+import com.brabos.bahia.cursoSpring.repositories.CityRepository;
 import com.brabos.bahia.cursoSpring.repositories.ProductRepository;
+import com.brabos.bahia.cursoSpring.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +24,12 @@ public class CursoSpringApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private StateRepository stateRepository;
+
+	@Autowired
+	private CityRepository cityRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoSpringApplication.class, args);
@@ -41,9 +51,21 @@ public class CursoSpringApplication implements CommandLineRunner {
 		p2.getCategories().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategories().add(cat1);
 
+		State state1 = new State(null, "Minas Gerais");
+		State state2 = new State(null, "São Paulo");
+
+		City city1 = new City(null, "Uberlância", state1);
+		City city2 = new City(null, "São Paulo", state2);
+		City city3 = new City(null, "Campinas", state2);
+
+		state1.getCities().add(city1);
+		state2.getCities().addAll(Arrays.asList(city2, city3));
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+		stateRepository.saveAll(Arrays.asList(state1, state2));
+		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 
 	}
 }
