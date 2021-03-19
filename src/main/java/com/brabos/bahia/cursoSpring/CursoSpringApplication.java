@@ -2,12 +2,14 @@ package com.brabos.bahia.cursoSpring;
 
 import com.brabos.bahia.cursoSpring.domain.*;
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
 import com.brabos.bahia.cursoSpring.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -31,6 +33,12 @@ public class CursoSpringApplication implements CommandLineRunner {
 
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	private ClientOrderRepository clientOrderRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoSpringApplication.class, args);
@@ -69,7 +77,7 @@ public class CursoSpringApplication implements CommandLineRunner {
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "3455453564", ClientType.REGULARPERSON);
-		cli1.getTelephone().addAll(Arrays.asList("3545451", "53454371"));
+		cli1.getTelephones().addAll(Arrays.asList("3545451", "53454371"));
 		Address e1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "3434543", cli1, city1);
 		Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "3465198", cli1, city2);
 
@@ -77,6 +85,22 @@ public class CursoSpringApplication implements CommandLineRunner {
 
 		clientRepository.save(cli1);
 		addressRepository.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		ClientOrder ped1 = new ClientOrder(null, sdf.parse("30/09/2020 10:32"), cli1, e1);
+		ClientOrder ped2 = new ClientOrder(null, sdf.parse("10/10/2020 19:32"), cli1, e2);
+
+		Payment pay1 = new PaymentWithCard(null, PaymentState.PAID, ped1, 6);
+		ped1.setPayment(pay1);
+
+		Payment pay2 = new PaymentWithBoleto(null, PaymentState.PENDING, ped2, sdf.parse("20/10/2020 02:30"), null);
+		ped2.setPayment(pay2);
+
+		cli1.getOrders().addAll(Arrays.asList(ped1, ped2));
+
+		clientOrderRepository.saveAll(Arrays.asList(ped1, ped2));
+		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 
 
 	}

@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,11 +21,15 @@ public class Client implements Serializable {
     private Integer type;
 
     @OneToMany(mappedBy = "client")
+    private List<ClientOrder> clientOrders = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "TELEPHONE")
-    private Set<String> telephone = new HashSet<>();
+    @CollectionTable(name = "TELEPHONES")
+    private Set<String> telephones = new HashSet<>();
     
     public Client(){
 
@@ -49,6 +54,14 @@ public class Client implements Serializable {
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
         this.type = type.getCode();
+    }
+
+    public List<ClientOrder> getOrders() {
+        return clientOrders;
+    }
+
+    public void setOrders(List<ClientOrder> clientOrders) {
+        this.clientOrders = clientOrders;
     }
 
     public Integer getId() {
@@ -99,11 +112,11 @@ public class Client implements Serializable {
         this.addresses = addresses;
     }
 
-    public Set<String> getTelephone() {
-        return telephone;
+    public Set<String> getTelephones() {
+        return telephones;
     }
 
-    public void setTelephone(Set<String> telephone) {
-        this.telephone = telephone;
+    public void setTelephones(Set<String> telephone) {
+        this.telephones = telephone;
     }
 }
