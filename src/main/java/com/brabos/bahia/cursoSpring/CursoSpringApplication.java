@@ -1,13 +1,8 @@
 package com.brabos.bahia.cursoSpring;
 
-import com.brabos.bahia.cursoSpring.domain.Category;
-import com.brabos.bahia.cursoSpring.domain.City;
-import com.brabos.bahia.cursoSpring.domain.Product;
-import com.brabos.bahia.cursoSpring.domain.State;
-import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
-import com.brabos.bahia.cursoSpring.repositories.CityRepository;
-import com.brabos.bahia.cursoSpring.repositories.ProductRepository;
-import com.brabos.bahia.cursoSpring.repositories.StateRepository;
+import com.brabos.bahia.cursoSpring.domain.*;
+import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.brabos.bahia.cursoSpring.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +25,12 @@ public class CursoSpringApplication implements CommandLineRunner {
 
 	@Autowired
 	private CityRepository cityRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoSpringApplication.class, args);
@@ -66,6 +67,17 @@ public class CursoSpringApplication implements CommandLineRunner {
 
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
+
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "3455453564", ClientType.REGULARPERSON);
+		cli1.getTelephone().addAll(Arrays.asList("3545451", "53454371"));
+		Address e1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "3434543", cli1, city1);
+		Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "3465198", cli1, city2);
+
+		cli1.getAddresses().addAll(Arrays.asList(e1, e2));
+
+		clientRepository.save(cli1);
+		addressRepository.saveAll(Arrays.asList(e1, e2));
+
 
 	}
 }
