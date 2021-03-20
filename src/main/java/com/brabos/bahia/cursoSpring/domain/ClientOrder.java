@@ -3,7 +3,9 @@ package com.brabos.bahia.cursoSpring.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class ClientOrder implements Serializable {
@@ -25,6 +27,10 @@ public class ClientOrder implements Serializable {
     @ManyToOne
     @JoinColumn(name = "delivery_address_id")
     private Address deliveryAddress;
+
+    @OneToMany(mappedBy = "id.clientOrder")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
 
     public ClientOrder() {
     }
@@ -76,6 +82,14 @@ public class ClientOrder implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,4 +102,6 @@ public class ClientOrder implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }

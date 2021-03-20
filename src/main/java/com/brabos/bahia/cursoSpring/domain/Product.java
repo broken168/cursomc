@@ -1,12 +1,9 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Product implements Serializable {
@@ -25,6 +22,17 @@ public class Product implements Serializable {
     joinColumns = @JoinColumn(name = "product_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    public List<ClientOrder> getClientOrders(){
+        List<ClientOrder> list = new ArrayList<>();
+        for(OrderItem x : orderItems){
+            list.add(x.getClientOrder());
+        }
+        return list;
+    }
 
     public Product(){
 
@@ -68,6 +76,14 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,4 +96,6 @@ public class Product implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
