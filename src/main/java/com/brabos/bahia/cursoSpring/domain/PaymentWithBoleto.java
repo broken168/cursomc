@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
 import java.util.Date;
@@ -10,7 +11,10 @@ public class PaymentWithBoleto extends Payment {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dueData;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date paymentData;
 
     public PaymentWithBoleto(){

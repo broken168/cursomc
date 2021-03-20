@@ -1,5 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
+    @JsonIgnore
     private OrderItemPK id = new OrderItemPK();
 
     private Double discount;
@@ -22,6 +25,7 @@ public class OrderItem implements Serializable {
     }
 
     public OrderItem(ClientOrder clientOrder, Product product, Double discount, Integer quantidade, Double price) {
+        super();
         id.setClientOrder(clientOrder);
         id.setProduct(product);
         this.discount = discount;
@@ -29,6 +33,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public ClientOrder getClientOrder(){
         return this.id.getClientOrder();
     }

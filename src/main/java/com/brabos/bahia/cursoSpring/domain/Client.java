@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer type;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "client")
     private List<ClientOrder> clientOrders = new ArrayList<>();
 
@@ -56,11 +58,11 @@ public class Client implements Serializable {
         this.type = type.getCode();
     }
 
-    public List<ClientOrder> getOrders() {
+    public List<ClientOrder> getClientOrders() {
         return clientOrders;
     }
 
-    public void setOrders(List<ClientOrder> clientOrders) {
+    public void setClientOrders(List<ClientOrder> clientOrders) {
         this.clientOrders = clientOrders;
     }
 

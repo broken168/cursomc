@@ -1,10 +1,13 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 @Entity
@@ -16,7 +19,8 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer state;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
+    @OneToOne
     @JoinColumn(name="clientOrder_id")
     @MapsId
     private ClientOrder clientOrder;
@@ -39,45 +43,32 @@ public abstract class Payment implements Serializable {
         this.id = id;
     }
 
-    public PaymentState getEstado() {
-        return PaymentState.toEnum(state);
+    public Integer getState() {
+        return state;
     }
 
-    public void setEstado(PaymentState state) {
-        this.state = state.getCode();
+    public void setState(Integer state) {
+        this.state = state;
     }
 
-    public ClientOrder getOrder() {
+    public ClientOrder getClientOrder() {
         return clientOrder;
     }
 
-    public void setOrder(ClientOrder clientOrder) {
+    public void setClientOrder(ClientOrder clientOrder) {
         this.clientOrder = clientOrder;
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment = (Payment) o;
+        return Objects.equals(id, payment.id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Payment other = (Payment) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }

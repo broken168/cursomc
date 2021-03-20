@@ -1,5 +1,9 @@
 package com.brabos.bahia.cursoSpring.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,12 +19,17 @@ public class ClientOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date time;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "clientOrder")
     private Payment payment;
 
+
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "client_id")
     private Client client;
 
@@ -36,6 +45,7 @@ public class ClientOrder implements Serializable {
     }
 
     public ClientOrder(Integer id, Date time, Client client, Address deliveryAddress) {
+        super();
         this.id = id;
         this.time = time;
         this.client = client;

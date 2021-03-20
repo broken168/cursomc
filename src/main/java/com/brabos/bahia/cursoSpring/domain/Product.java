@@ -1,6 +1,8 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -23,9 +25,11 @@ public class Product implements Serializable {
     inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product")
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    @JsonIgnore
     public List<ClientOrder> getClientOrders(){
         List<ClientOrder> list = new ArrayList<>();
         for(OrderItem x : orderItems){
@@ -76,6 +80,7 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
+    @JsonIgnore
     public Set<OrderItem> getOrderItems() {
         return orderItems;
     }

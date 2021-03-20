@@ -100,7 +100,7 @@ public class CursoSpringApplication implements CommandLineRunner {
 		Payment pay2 = new PaymentWithBoleto(null, PaymentState.PENDING, ped2, sdf.parse("20/10/2020 02:30"), null);
 		ped2.setPayment(pay2);
 
-		cli1.getOrders().addAll(Arrays.asList(ped1, ped2));
+		cli1.getClientOrders().addAll(Arrays.asList(ped1, ped2));
 
 		clientOrderRepository.saveAll(Arrays.asList(ped1, ped2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
