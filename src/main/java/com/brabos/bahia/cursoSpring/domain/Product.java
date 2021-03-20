@@ -1,6 +1,5 @@
 package com.brabos.bahia.cursoSpring.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,7 +17,7 @@ public class Product implements Serializable {
     private String name;
     private Double price;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "CATEGORY_PRODUTO",
     joinColumns = @JoinColumn(name = "product_id"),
@@ -47,6 +46,8 @@ public class Product implements Serializable {
         this.name = name;
         this.price = price;
     }
+
+    @JsonBac
 
     public Integer getId() {
         return id;
@@ -80,7 +81,7 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public Set<OrderItem> getOrderItems() {
         return orderItems;
     }

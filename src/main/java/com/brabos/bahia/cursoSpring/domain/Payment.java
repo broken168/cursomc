@@ -1,7 +1,6 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -19,7 +18,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer state;
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name="clientOrder_id")
     @MapsId

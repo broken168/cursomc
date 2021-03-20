@@ -1,6 +1,5 @@
 package com.brabos.bahia.cursoSpring.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,7 +14,6 @@ public class City {
     private Integer id;
     private String name;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private State state;
