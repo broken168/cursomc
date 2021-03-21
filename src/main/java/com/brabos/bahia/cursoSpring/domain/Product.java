@@ -47,7 +47,6 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    @JsonBac
 
     public Integer getId() {
         return id;

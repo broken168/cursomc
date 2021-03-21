@@ -1,13 +1,13 @@
 package com.brabos.bahia.cursoSpring.resources;
 
+import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +21,14 @@ public class CategoryResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> find(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(categoryService.find(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody Category category){
+        category = categoryService.insert(category);
+        URI uri  = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(category.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
     }
 }

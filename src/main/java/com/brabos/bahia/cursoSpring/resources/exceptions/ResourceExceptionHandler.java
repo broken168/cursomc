@@ -12,7 +12,8 @@ import java.util.Date;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(ObjectNotFoundException.class)
+    @ExceptionHandler(ObjectNotFoundException.class
+    )
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
         StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), new Date());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
