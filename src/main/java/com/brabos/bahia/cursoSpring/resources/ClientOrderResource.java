@@ -1,5 +1,6 @@
 package com.brabos.bahia.cursoSpring.resources;
 
+import com.brabos.bahia.cursoSpring.domain.ClientOrder;
 import com.brabos.bahia.cursoSpring.services.ClientOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class ClientOrderResource {
     private ClientOrderService clientOrderService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> find(@PathVariable("id") Integer id) {
+    public ResponseEntity<ClientOrder> find(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(clientOrderService.find(id));
     }
 }

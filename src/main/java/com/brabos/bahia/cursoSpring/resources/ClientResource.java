@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.resources;
 
 
+import com.brabos.bahia.cursoSpring.domain.Client;
 import com.brabos.bahia.cursoSpring.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class ClientResource {
     private ClientService clientService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> find(@PathVariable("id") Integer id) {
+    public ResponseEntity<Client> find(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(clientService.find(id));
     }
 }
