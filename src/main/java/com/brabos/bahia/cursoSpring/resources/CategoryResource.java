@@ -2,7 +2,9 @@ package com.brabos.bahia.cursoSpring.resources;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.services.CategoryService;
+import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,4 +39,12 @@ public class CategoryResource {
         category = categoryService.update(category);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
