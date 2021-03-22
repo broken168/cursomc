@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.services;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
+import com.brabos.bahia.cursoSpring.domain.Client;
 import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
 
@@ -33,8 +34,9 @@ public class CategoryService {
     }
 
     public Category update(Category category) {
-        find(category.getId());
-        return categoryRepository.save(category);
+        Category newCategory = find(category.getId());
+        updateData(category, newCategory);
+        return categoryRepository.save(newCategory);
     }
 
     public void delete(Integer id) {
@@ -58,5 +60,9 @@ public class CategoryService {
 
     public Category fromDTO(CategoryDTO categoryDTO){
         return new Category(categoryDTO.getId(), categoryDTO.getName());
+    }
+
+    private void updateData(Category category, Category newCategory) {
+        newCategory.setName(category.getName());
     }
 }

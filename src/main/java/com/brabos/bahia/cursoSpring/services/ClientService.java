@@ -41,7 +41,6 @@ public class ClientService {
         }catch (DataIntegrityViolationException e){
             throw new DataIntegrityException("Não é possível deletar uma categoria que possui produtos");
         }
-
     }
 
     public List<Client> findAll() {
