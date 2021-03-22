@@ -50,7 +50,7 @@ public class ClientService {
         try {
             clientRepository.deleteById(id);
         }catch (DataIntegrityViolationException e){
-            throw new DataIntegrityException("Não é possível deletar uma categoria que possui produtos");
+            throw new DataIntegrityException("Não é possível deletar porque há pedidos relacionados");
         }
     }
 

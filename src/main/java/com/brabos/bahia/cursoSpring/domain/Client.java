@@ -1,9 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,7 +24,7 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client")
     private List<ClientOrder> clientOrders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
     @ElementCollection
