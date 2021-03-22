@@ -1,16 +1,20 @@
 package com.brabos.bahia.cursoSpring.resources;
 
 
+import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.domain.Client;
 import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.dto.ClientDTO;
+import com.brabos.bahia.cursoSpring.dto.NewClientDTO;
 import com.brabos.bahia.cursoSpring.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +28,15 @@ public class ClientResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Client> find(@PathVariable("id") Integer id) {
         return ResponseEntity.ok().body(clientService.find(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@Valid @RequestBody NewClientDTO newClientDTO){
+        Client client = clientService.fromDTO(newClientDTO);
+        client = clientService.insert(client);
+        URI uri  = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(client.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping()
