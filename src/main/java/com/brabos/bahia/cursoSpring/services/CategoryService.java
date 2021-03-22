@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.services;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
+import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
 
 import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
@@ -53,5 +54,9 @@ public class CategoryService {
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoryRepository.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO){
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 }
