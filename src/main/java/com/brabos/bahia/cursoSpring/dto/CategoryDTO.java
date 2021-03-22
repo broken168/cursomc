@@ -2,7 +2,6 @@ package com.brabos.bahia.cursoSpring.dto;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
