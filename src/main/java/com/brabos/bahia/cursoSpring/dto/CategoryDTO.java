@@ -14,10 +14,12 @@ public class CategoryDTO implements Serializable {
     public CategoryDTO() {
     }
 
-    public CategoryDTO(Category category){
+    public CategoryDTO(Category category) {
         this.id = category.getId();
         this.name = category.getName();
     }
+
+
 
     public Integer getId() {
         return id;

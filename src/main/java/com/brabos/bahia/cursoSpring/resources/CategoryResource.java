@@ -3,15 +3,13 @@ package com.brabos.bahia.cursoSpring.resources;
 import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.services.CategoryService;
-import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +50,16 @@ public class CategoryResource {
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping(value = "/page")
+    public ResponseEntity<Page> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                         @RequestParam(value = "linesPerPage", defaultValue = "24")Integer linesPerPage,
+                                         @RequestParam(value = "orderBy", defaultValue = "name")String orderBy,
+                                         @RequestParam(value = "direction", defaultValue = "ASC")String direction) {
+        Page<CategoryDTO> list = categoryService.findPage(page, linesPerPage, orderBy, direction).map(obj -> new CategoryDTO(obj));
+        return ResponseEntity.ok().body(list);
     }
 
 
