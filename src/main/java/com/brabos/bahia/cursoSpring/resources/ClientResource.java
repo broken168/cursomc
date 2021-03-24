@@ -1,9 +1,7 @@
 package com.brabos.bahia.cursoSpring.resources;
 
 
-import com.brabos.bahia.cursoSpring.domain.Category;
 import com.brabos.bahia.cursoSpring.domain.Client;
-import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.dto.ClientDTO;
 import com.brabos.bahia.cursoSpring.dto.NewClientDTO;
 import com.brabos.bahia.cursoSpring.services.ClientService;

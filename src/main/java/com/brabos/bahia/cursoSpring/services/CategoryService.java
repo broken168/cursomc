@@ -1,10 +1,8 @@
 package com.brabos.bahia.cursoSpring.services;
 
 import com.brabos.bahia.cursoSpring.domain.Category;
-import com.brabos.bahia.cursoSpring.domain.Client;
 import com.brabos.bahia.cursoSpring.dto.CategoryDTO;
 import com.brabos.bahia.cursoSpring.repositories.CategoryRepository;
-
 import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
 import com.brabos.bahia.cursoSpring.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

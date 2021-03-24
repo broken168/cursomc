@@ -3,7 +3,6 @@ package com.brabos.bahia.cursoSpring.domain;
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
