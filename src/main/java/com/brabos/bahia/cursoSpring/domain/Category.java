@@ -16,6 +16,9 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products = new ArrayList<>();
+
     private String name;
 
     public Category() {
@@ -26,8 +29,7 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products = new ArrayList<>();
+
 
     public List<Product> getProducts() {
         return products;
