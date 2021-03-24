@@ -1,12 +1,14 @@
 package com.brabos.bahia.cursoSpring.dto;
 
 import com.brabos.bahia.cursoSpring.domain.Client;
+import com.brabos.bahia.cursoSpring.dto.validation.UpdateClient;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@UpdateClient
 public class ClientDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
