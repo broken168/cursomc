@@ -17,19 +17,23 @@ public class OrderItem implements Serializable {
     private OrderItemPK id = new OrderItemPK();
 
     private Double discount;
-    private Integer quantidade;
+    private Integer amout;
     private Double price;
+
+    public double getSubtotal(){
+        return (price - discount) * amout;
+    }
 
     public OrderItem(){
 
     }
 
-    public OrderItem(ClientOrder clientOrder, Product product, Double discount, Integer quantidade, Double price) {
+    public OrderItem(ClientOrder clientOrder, Product product, Double discount, Integer amout, Double price) {
         super();
         id.setClientOrder(clientOrder);
         id.setProduct(product);
         this.discount = discount;
-        this.quantidade = quantidade;
+        this.amout = amout;
         this.price = price;
     }
 
@@ -58,12 +62,12 @@ public class OrderItem implements Serializable {
         this.discount = discount;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public Integer getAmout() {
+        return amout;
     }
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    public void setAmout(Integer amout) {
+        this.amout = amout;
     }
 
     public Double getPrice() {

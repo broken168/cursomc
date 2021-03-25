@@ -36,6 +36,13 @@ public class ClientOrder implements Serializable {
     @OneToMany(mappedBy = "id.clientOrder")
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    public double getTotalPrice(){
+        double soma = 0;
+        for(OrderItem x : orderItems){
+            soma += x.getSubtotal();
+        }
+        return soma;
+    }
 
     public ClientOrder() {
     }
