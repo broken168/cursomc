@@ -1,6 +1,7 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -115,6 +116,5 @@ public class ClientOrder implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 
 }

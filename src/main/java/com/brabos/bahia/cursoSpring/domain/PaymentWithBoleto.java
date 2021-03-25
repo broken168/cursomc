@@ -2,11 +2,13 @@ package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
+@JsonTypeName("paymentWithBoleto")
 public class PaymentWithBoleto extends Payment {
 
     private static final long serialVersionUID = 1L;

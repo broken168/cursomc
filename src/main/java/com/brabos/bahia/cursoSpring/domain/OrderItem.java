@@ -17,24 +17,32 @@ public class OrderItem implements Serializable {
     private OrderItemPK id = new OrderItemPK();
 
     private Double discount;
-    private Integer amout;
+    private Integer amount;
     private Double price;
 
     public double getSubtotal(){
-        return (price - discount) * amout;
+        return (price - discount) * amount;
     }
 
     public OrderItem(){
 
     }
 
-    public OrderItem(ClientOrder clientOrder, Product product, Double discount, Integer amout, Double price) {
+    public OrderItem(ClientOrder clientOrder, Product product, Double discount, Integer amount, Double price) {
         super();
         id.setClientOrder(clientOrder);
         id.setProduct(product);
         this.discount = discount;
-        this.amout = amout;
+        this.amount = amount;
         this.price = price;
+    }
+
+    public void setClientOrder(ClientOrder clientOrder){
+        id.setClientOrder(clientOrder);
+    }
+
+    public void setProduct(Product product){
+        id.setProduct(product);
     }
 
     @JsonIgnore
@@ -62,12 +70,12 @@ public class OrderItem implements Serializable {
         this.discount = discount;
     }
 
-    public Integer getAmout() {
-        return amout;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setAmout(Integer amout) {
-        this.amout = amout;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Double getPrice() {

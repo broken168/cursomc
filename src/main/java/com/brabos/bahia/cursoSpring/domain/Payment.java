@@ -2,6 +2,7 @@ package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -41,12 +43,12 @@ public abstract class Payment implements Serializable {
         this.id = id;
     }
 
-    public Integer getState() {
-        return state;
+    public PaymentState getState() {
+        return PaymentState.toEnum(state);
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setState(PaymentState state) {
+        this.state = state.getCode();
     }
 
     public ClientOrder getClientOrder() {
@@ -69,4 +71,5 @@ public abstract class Payment implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
