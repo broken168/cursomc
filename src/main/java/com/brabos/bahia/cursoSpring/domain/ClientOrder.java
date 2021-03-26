@@ -5,10 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Entity
 public class ClientOrder implements Serializable {
@@ -117,4 +116,21 @@ public class ClientOrder implements Serializable {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        NumberFormat mf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        final StringBuilder sb = new StringBuilder("Pedido {");
+        sb.append("Número do pedido:").append(id);
+        sb.append("\n, Instante:").append(sdf.format(time));
+        sb.append("\n, Situação do pagamento: ").append(payment.getState().getDescription());
+        sb.append("\n, Cliente:").append(client.getName());
+        sb.append("\n, Detalhes: ");
+        for(OrderItem x : orderItems){
+            sb.append(x.toString());
+        }
+        sb.append("Preço total: ").append(mf.format(getTotalPrice()));
+        sb.append('}');
+        return sb.toString();
+    }
 }

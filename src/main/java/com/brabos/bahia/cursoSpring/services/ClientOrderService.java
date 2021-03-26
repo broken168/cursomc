@@ -23,6 +23,9 @@ public class ClientOrderService {
     private ClientOrderRepository clientOrderRepository;
 
     @Autowired
+    private ClientService clientService;
+
+    @Autowired
     private ProductService productService;
 
     @Autowired
@@ -43,6 +46,7 @@ public class ClientOrderService {
     public ClientOrder insert(ClientOrder clientOrder) {
         clientOrder.setId(null);
         clientOrder.setTime(new Date());
+        clientOrder.setClient(clientService.find(clientOrder.getClient().getId()));
         clientOrder.getPayment().setState(PaymentState.PENDING);
         clientOrder.getPayment().setClientOrder(clientOrder);
         if(clientOrder.getPayment() instanceof PaymentWithBoleto){
@@ -53,10 +57,12 @@ public class ClientOrderService {
         paymentRepository.save(clientOrder.getPayment());
         for(OrderItem x : clientOrder.getOrderItems()){
             x.setDiscount(0.0);
-            x.setPrice(productService.find(x.getProduct().getId()).getPrice());
+            x.setProduct(productService.find(x.getProduct().getId()));
+            x.setPrice(x.getProduct().getPrice());
             x.setClientOrder(clientOrder);
         }
         orderItemRepository.saveAll(clientOrder.getOrderItems());
+        System.out.println(clientOrder.toString());
         return clientOrder;
     }
 }
