@@ -1,6 +1,8 @@
 package com.brabos.bahia.cursoSpring.config;
 
 import com.brabos.bahia.cursoSpring.services.DBService;
+import com.brabos.bahia.cursoSpring.services.EmailService;
+import com.brabos.bahia.cursoSpring.services.MockEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,15 @@ public class TestConfig {
 
     @Autowired
     private DBService dbService;
+
     @Bean
     public boolean instantiateDatabase() throws ParseException {
         dbService.instantiateTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new MockEmailService();
     }
 }

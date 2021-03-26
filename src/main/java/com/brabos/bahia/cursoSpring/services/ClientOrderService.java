@@ -37,6 +37,9 @@ public class ClientOrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public ClientOrder find(Integer id){
         Optional<ClientOrder> category = clientOrderRepository.findById(id);
         return category.orElseThrow(() -> new ObjectNotFoundException("Pedido não encontrado para id " + id));
@@ -62,7 +65,7 @@ public class ClientOrderService {
             x.setClientOrder(clientOrder);
         }
         orderItemRepository.saveAll(clientOrder.getOrderItems());
-        System.out.println(clientOrder.toString());
+        emailService.sendOrderConfirmation(clientOrder);
         return clientOrder;
     }
 }
