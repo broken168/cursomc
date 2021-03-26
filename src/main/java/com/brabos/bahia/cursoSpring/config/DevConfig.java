@@ -1,6 +1,8 @@
 package com.brabos.bahia.cursoSpring.config;
 
 import com.brabos.bahia.cursoSpring.services.DBService;
+import com.brabos.bahia.cursoSpring.services.EmailService;
+import com.brabos.bahia.cursoSpring.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,5 +28,10 @@ public class DevConfig {
         }
         dbService.instantiateTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
     }
 }
