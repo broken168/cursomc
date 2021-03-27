@@ -12,7 +12,6 @@ public class NewClientDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @NotEmpty(message = "Preenchimento obrigatório")
     @Length(min = 5, max = 120, message = "O tamanho deve ser entra 5 e 120 caracteres")
     private String name;
@@ -25,6 +24,9 @@ public class NewClientDTO implements Serializable {
     private String cpfOrCnpj;
 
     private Integer type;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    private String password;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String publicPlace;
@@ -47,6 +49,16 @@ public class NewClientDTO implements Serializable {
 
     public NewClientDTO() {
     }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     public String getName() {
         return name;

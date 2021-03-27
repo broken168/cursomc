@@ -22,6 +22,9 @@ public class Client implements Serializable {
     private Integer type;
 
     @JsonIgnore
+    private String password;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<ClientOrder> clientOrders = new ArrayList<>();
 
@@ -44,17 +47,27 @@ public class Client implements Serializable {
         return Objects.equals(id, client.id);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
 
-    public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type) {
+    public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
         this.type = (type==null) ? null : type.getCode();
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<ClientOrder> getClientOrders() {
