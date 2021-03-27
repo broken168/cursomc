@@ -3,6 +3,7 @@ package com.brabos.bahia.cursoSpring.services;
 import com.brabos.bahia.cursoSpring.domain.*;
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
+import com.brabos.bahia.cursoSpring.domain.enums.Profile;
 import com.brabos.bahia.cursoSpring.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -103,15 +104,23 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(state1, state2));
         cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 
-        Client cli1 = new Client(null, "Maria Silva", "chaves123.gs@gmail.com", "3455453564", ClientType.REGULARPERSON, pe.encode("123"));
+        Client cli1 = new Client(null, "Maria Silva", "chaves123.gs@gmail.com", "29448281005", ClientType.REGULARPERSON, pe.encode("123"));
+
+        Client cli2 = new Client(null, "Ana Silva", "chaves12323.gs@gmail.com", "29448281005", ClientType.REGULARPERSON, pe.encode("123"));
+        cli2.addProfile(Profile.ADMIN);
+        cli2.getTelephones().add("929482134");
+
+
         cli1.getTelephones().addAll(Arrays.asList("3545451", "53454371"));
         Address e1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "3434543", cli1, city1);
         Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "3465198", cli1, city2);
+        Address e3 = new Address(null, "Avenida Floriano", "206", null, "Centro", "3465198", cli2, city2);
 
+        cli2.getAddresses().add(e3);
         cli1.getAddresses().addAll(Arrays.asList(e1, e2));
 
-        clientRepository.save(cli1);
-        addressRepository.saveAll(Arrays.asList(e1, e2));
+        clientRepository.saveAll(Arrays.asList(cli1, cli2));
+        addressRepository.saveAll(Arrays.asList(e1, e2, e3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

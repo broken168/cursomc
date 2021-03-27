@@ -1,11 +1,13 @@
 package com.brabos.bahia.cursoSpring.domain;
 
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.brabos.bahia.cursoSpring.domain.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Client implements Serializable {
@@ -31,12 +33,26 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "profiles")
+    private Set<Integer> profiles = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(name = "TELEPHONES")
     private Set<String> telephones = new HashSet<>();
     
     public Client(){
+        addProfile(Profile.CLIENT);
+    }
 
+    public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, String password) {
+        addProfile(Profile.CLIENT);
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.cpfOrCnpj = cpfOrCnpj;
+        this.type = (type==null) ? null : type.getCode();
+        this.password = password;
     }
 
     @Override
@@ -53,21 +69,20 @@ public class Client implements Serializable {
         return Objects.hash(id);
     }
 
-    public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.cpfOrCnpj = cpfOrCnpj;
-        this.type = (type==null) ? null : type.getCode();
-        this.password = password;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Profile> getProfile(){
+        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Profile profile){
+        profiles.add(profile.getCode());
     }
 
     public List<ClientOrder> getClientOrders() {
