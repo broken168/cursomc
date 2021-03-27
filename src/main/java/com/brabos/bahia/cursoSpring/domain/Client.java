@@ -77,7 +77,7 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    public Set<Profile> getProfile(){
+    public Set<Profile> getProfiles(){
         return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
