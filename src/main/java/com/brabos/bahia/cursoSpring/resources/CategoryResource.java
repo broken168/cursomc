@@ -61,7 +61,7 @@ public class CategoryResource {
 
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<Page<CategoryDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                          @RequestParam(value = "linesPerPage", defaultValue = "24")Integer linesPerPage,
                                          @RequestParam(value = "orderBy", defaultValue = "name")String orderBy,
                                          @RequestParam(value = "direction", defaultValue = "ASC")String direction)

@@ -1,14 +1,17 @@
 package com.brabos.bahia.cursoSpring.services;
 
-import com.brabos.bahia.cursoSpring.domain.ClientOrder;
-import com.brabos.bahia.cursoSpring.domain.OrderItem;
-import com.brabos.bahia.cursoSpring.domain.PaymentWithBoleto;
+import com.brabos.bahia.cursoSpring.domain.*;
 import com.brabos.bahia.cursoSpring.domain.enums.PaymentState;
 import com.brabos.bahia.cursoSpring.repositories.ClientOrderRepository;
 import com.brabos.bahia.cursoSpring.repositories.OrderItemRepository;
 import com.brabos.bahia.cursoSpring.repositories.PaymentRepository;
+import com.brabos.bahia.cursoSpring.security.UserSS;
+import com.brabos.bahia.cursoSpring.services.exceptions.AuthorizationException;
 import com.brabos.bahia.cursoSpring.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,9 +43,20 @@ public class ClientOrderService {
     @Autowired
     private EmailService emailService;
 
+
     public ClientOrder find(Integer id){
         Optional<ClientOrder> category = clientOrderRepository.findById(id);
         return category.orElseThrow(() -> new ObjectNotFoundException("Pedido não encontrado para id " + id));
+    }
+
+    public Page<ClientOrder> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSS user = UserService.authenticated();
+        if(user == null){
+            throw new AuthorizationException("Acesso negado");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Client client = clientService.find(user.getId());
+        return clientOrderRepository.findByClient(client, pageRequest);
     }
 
     @Transactional
