@@ -1,5 +1,6 @@
 package com.brabos.bahia.cursoSpring.resources.exceptions;
 
+import com.brabos.bahia.cursoSpring.services.exceptions.AuthorizationException;
 import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
 import com.brabos.bahia.cursoSpring.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,7 @@ import java.util.Date;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(ObjectNotFoundException.class
-    )
+    @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request){
         StandardError error = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), new Date());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
@@ -36,6 +36,12 @@ public class ResourceExceptionHandler {
             error.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST ).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> objectNotFound(AuthorizationException e, HttpServletRequest request){
+        StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), new Date());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
 }

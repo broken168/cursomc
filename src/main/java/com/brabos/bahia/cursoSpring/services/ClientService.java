@@ -4,11 +4,14 @@ import com.brabos.bahia.cursoSpring.domain.Address;
 import com.brabos.bahia.cursoSpring.domain.City;
 import com.brabos.bahia.cursoSpring.domain.Client;
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
+import com.brabos.bahia.cursoSpring.domain.enums.Profile;
 import com.brabos.bahia.cursoSpring.dto.ClientDTO;
 import com.brabos.bahia.cursoSpring.dto.NewClientDTO;
 import com.brabos.bahia.cursoSpring.repositories.AddressRepository;
 import com.brabos.bahia.cursoSpring.repositories.CityRepository;
 import com.brabos.bahia.cursoSpring.repositories.ClientRepository;
+import com.brabos.bahia.cursoSpring.security.UserSS;
+import com.brabos.bahia.cursoSpring.services.exceptions.AuthorizationException;
 import com.brabos.bahia.cursoSpring.services.exceptions.DataIntegrityException;
 import com.brabos.bahia.cursoSpring.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,10 @@ public class ClientService {
     private BCryptPasswordEncoder pe;
 
     public Client find(Integer id){
+        UserSS user = UserService.authenticated();
+        if(user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
         Optional<Client> category = clientRepository.findById(id);
         return category.orElseThrow(() -> new ObjectNotFoundException("Cliente não encontrado para id " + id));
     }
