@@ -3,7 +3,6 @@ package com.brabos.bahia.cursoSpring.services;
 import com.brabos.bahia.cursoSpring.domain.Address;
 import com.brabos.bahia.cursoSpring.domain.City;
 import com.brabos.bahia.cursoSpring.domain.Client;
-import com.brabos.bahia.cursoSpring.domain.ClientOrder;
 import com.brabos.bahia.cursoSpring.domain.enums.ClientType;
 import com.brabos.bahia.cursoSpring.dto.ClientDTO;
 import com.brabos.bahia.cursoSpring.dto.NewClientDTO;
