@@ -1,6 +1,8 @@
 package com.brabos.bahia.cursoSpring.security;
 
+import com.brabos.bahia.cursoSpring.services.exceptions.AuthorizationException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,23 +28,21 @@ public class JWTUtil {
     }
 
     public boolean tokenIsValid(String token) {
-        Claims claims = getClaims(token);
-        if(claims != null){
+            Claims claims = getClaims(token);
             String username = claims.getSubject();
             Date expirationDate = claims.getExpiration();
             Date now = new Date(System.currentTimeMillis());
             if(username != null && expirationDate != null && now.before(expirationDate)){
                 return true;
             }
-        }
         return false;
     }
 
     private Claims getClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
-        }catch (Exception e){
-            return null;
+        }catch (ExpiredJwtException e){
+            throw new AuthorizationException("Sessão expirada");
         }
     }
 

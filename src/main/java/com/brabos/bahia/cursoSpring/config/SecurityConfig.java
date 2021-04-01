@@ -1,5 +1,6 @@
 package com.brabos.bahia.cursoSpring.config;
 
+import com.brabos.bahia.cursoSpring.resources.exceptions.ExceptionHandlerFilter;
 import com.brabos.bahia.cursoSpring.security.JWTAuthenticationFilter;
 import com.brabos.bahia.cursoSpring.security.JWTAuthorizationFilter;
 import com.brabos.bahia.cursoSpring.security.JWTUtil;
@@ -17,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,6 +29,8 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
 
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console",
@@ -52,6 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTUtil jwtUtil;
 
+    @Autowired
+    private ExceptionHandlerFilter exceptionHandlerFilter;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.headers().frameOptions().disable();
         }
 
+        http.addFilterBefore(exceptionHandlerFilter, LogoutFilter.class);
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
         http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 
