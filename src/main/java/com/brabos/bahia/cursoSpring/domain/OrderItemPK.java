@@ -35,10 +35,10 @@ public class OrderItemPK implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderItemPK that = (OrderItemPK) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        OrderItemPK that = (OrderItemPK) object;
         return clientOrder.equals(that.clientOrder) && product.equals(that.product);
     }
 
